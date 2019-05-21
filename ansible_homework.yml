@@ -1,0 +1,38 @@
+ - hosts: build
+
+   tasks:
+     - name: Making new dir
+       file: 
+         path: /root/repo
+         state: directory
+
+     - name: Install maven 
+       apt: pkg=maven state=installed update_cache=true
+
+     - name: extract java
+       unarchive:
+         src: jdk-8u212-linux-x64.tar.gz 
+         dest: /usr/lib/jvm
+
+     - name: Git clone project
+       git:
+         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+         dest: /root/repo
+ 
+     - name: Building app
+       shell: JAVA_HOME=/usr/lib/jvm/jdk1.8.0_212 cd /root/repo && mvn package
+ - hosts: web
+   tasks:
+     - name: Install tomcat app server
+       apt: pkg=tomcat8 state=installed update_cache=true
+
+     - name: App distribution
+       synchronize: src=/root/repo/target/hello-1.0.war dest=/var/lib/tomcat8/webapps
+       delegate_to: 192.168.0.7
+
+     - name: Apache restart
+       service: 
+         name: tomcat8
+         state: restarted
+
+
