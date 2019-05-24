@@ -1,0 +1,4 @@
+---
+# vars file for webserver
+   tomcat8_webapps_dir: /var/lib/tomcat8/webapps
+   repo_dir: /root/repo

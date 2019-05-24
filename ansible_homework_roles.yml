@@ -1,0 +1,9 @@
+---
+ - hosts: builder
+   become: yes
+   roles:
+     - mvn-build
+ - hosts: webserver
+   become: yes
+   roles:
+     - webserver

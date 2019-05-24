@@ -1,0 +1,7 @@
+---
+# handlers file for mvn-build
+     - name: tomcat8 restart
+       service: name=tomcat8 state=restarted
+
+     - name: tomcat8 start
+       service: name=tomcat8 state=started

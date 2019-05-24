@@ -1,0 +1,3 @@
+---
+# vars file for mvn-build
+   repo_dir: /root/repo

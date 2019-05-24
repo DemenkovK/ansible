@@ -1,0 +1,22 @@
+---
+# tasks file for mvn-build
+     - name: Making new dir
+       file:
+         path: "{{ repo_dir }}"
+         state: directory
+
+     - name: Install maven
+       apt: pkg=maven state=installed update_cache=true
+
+     - name: extract java
+       unarchive:
+         src: jdk-8u212-linux-x64.tar.gz
+         dest: /usr/lib/jvm
+
+     - name: Git clone project
+       git:
+         repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+         dest: "{{ repo_dir }}"
+
+     - name: Building app
+       shell: JAVA_HOME=/usr/lib/jvm/jdk1.8.0_212 cd "{{ repo_dir }}" && mvn package
